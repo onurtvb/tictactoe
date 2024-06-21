@@ -1,6 +1,7 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+
 class Board {
 
     private:
@@ -11,11 +12,10 @@ class Board {
     public:
         Board(char, char, char*);
         ~Board();
-        void move();
         void draw();
-
+        void place();
+        void computer_place();
+        bool won();
 };
-
-
 
 #endif
