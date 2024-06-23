@@ -16,6 +16,7 @@ class Board {
         void place();
         void computer_place();
         bool won();
+        bool tie();
 };
 
 #endif
