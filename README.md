@@ -8,18 +8,18 @@ Navigate through build folder and run cmake:
 
 ```batch
 cd build
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 ```
 
 Then compile the project:
 ```
-cmake --build .
+cmake --build . --config Release
 ```
 
-Finally go to Debug folder and run the .exe file:
+Finally go to Release folder and run the .exe file:
 ```
-cd Debug
-./tictactoe
+cd Release
+./tictactoe.exe
 ```
 
 Or go to the releases section to directly download the .exe file: [Releases](https://github.com/onurtvb/tictactoe/releases)

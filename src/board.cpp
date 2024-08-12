@@ -3,8 +3,7 @@
 #include <cstring>
 #include <ctime>
 #include <random>
-#include "include/board.h"
-#include "include/color.hpp"
+#include "board.h"
 
 
 template <typename T, typename U>
@@ -15,10 +14,6 @@ bool allequal(const T &t, const U &u) {
 template <typename T, typename U, typename... Others>
 bool allequal(const T &t, const U &u, Others const &... args) {
     return ((t == u) && allequal(u, args...));
-}
-
-int random(int min, int max){
-   return min + rand() / (RAND_MAX / (max - min + 1) + 1);
 }
 
 
@@ -59,27 +54,22 @@ void Board::place() {
         std::cin >> pos;
         std::cout << '\n';
     } while( (pos < 1 || pos > 9) || (moves[pos-1] == 'X' || moves[pos-1] == 'O') );
-
+    player_last_move = pos-1;
     moves[pos-1] = player;
 }
 
-//random bot move
-void Board::computer_place() {
-    int pos;
-    std::srand(std::time(0));
-    do {
-        pos = std::rand() % 9;
-    } while(moves[pos] == 'X' || moves[pos] == 'O');
+
+void Board::bot_place(int pos) {
     moves[pos] = computer;
 }
 
 bool Board::tie() {
-    for(int i=0; i<9; i++) if(moves[i] != 'X' || moves[i] != 'O') return false;
+    for(int i=0; i<9; i++) if(moves[i] == ' ') return false;
     return true;
 }
 
 
-bool Board::won() {
+bool Board::won(char* bot_nickname) {
     if(allequal(moves[0],moves[1],moves[2],player) ||
        allequal(moves[3],moves[4],moves[5],player) ||
        allequal(moves[6],moves[7],moves[8],player) ||
@@ -88,7 +78,7 @@ bool Board::won() {
        allequal(moves[2],moves[5],moves[8],player) ||
        allequal(moves[0],moves[4],moves[8],player) ||
        allequal(moves[2],moves[4],moves[6],player)
-       ) {std::cout << "\nYou won!"; return true;}
+       ) {std::cout << "\nYou won!\n"; return true;}
 
     if(allequal(moves[0],moves[1],moves[2],computer) ||
        allequal(moves[3],moves[4],moves[5],computer) ||
@@ -98,7 +88,15 @@ bool Board::won() {
        allequal(moves[2],moves[5],moves[8],computer) ||
        allequal(moves[0],moves[4],moves[8],computer) ||
        allequal(moves[2],moves[4],moves[6],computer)
-       ) {std::cout << "\nYou lost!"; return true;}
+       ) {std::cout << "\nYou lost! " << bot_nickname << " won!\n"; return true;}
 
     return false;
+}
+
+char* Board::get_moves() {
+    return moves;
+}
+
+int Board::get_player_last_move() {
+    return player_last_move;
 }
